@@ -1,15 +1,12 @@
 import {
   ADD_PLACE,
   DELETE_PLACE,
-  SELECT_PLACE,
-  DESELECT_PLACE,
   makeId
 } from '../actions';
 // import placeImage from '../../assets/beautiful-place.jpg';
 
 const initialState = {
-  places: [],
-  selectedPlace: null
+  places: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,18 +26,7 @@ const reducer = (state = initialState, action) => {
     case DELETE_PLACE:
       return {
         ...state,
-        places: state.places.filter(place => place.key !== action.key),
-        selectedPlace: null
-      };
-    case SELECT_PLACE:
-      return {
-        ...state,
-        selectedPlace: state.places.find(place => place.key === action.key)
-      };
-    case DESELECT_PLACE:
-      return {
-        ...state,
-        selectedPlace: null
+        places: state.places.filter(place => place.key !== action.key)
       };
     default:
       return state;

@@ -1,8 +1,6 @@
 export {
   addPlace, ADD_PLACE,
-  deletePlace, DELETE_PLACE,
-  selectPlace, SELECT_PLACE,
-  deselectPlace, DESELECT_PLACE
+  deletePlace, DELETE_PLACE
 } from './places';
 
 export {

@@ -16,7 +16,7 @@ export function loadAuthScreen () {
         color: 'white'
       },
       backButton: {
-        title: '', // Remove previous screen name from back button
+        // title: '', // Remove previous screen name from back button
         color: 'white'
       },
       buttonColor: 'white'

@@ -13,18 +13,3 @@ export const deletePlace = (key) => {
     key
   };
 };
-
-export const SELECT_PLACE = 'SELECT_PLACE';
-export const selectPlace = (key) => {
-  return {
-    type: SELECT_PLACE,
-    key
-  };
-};
-
-export const DESELECT_PLACE = 'DESELECT_PLACE';
-export const deselectPlace = () => {
-  return {
-    type: DESELECT_PLACE
-  };
-};

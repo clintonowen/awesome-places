@@ -9,7 +9,7 @@ const PlaceList = (props) => {
       renderItem={(info) => (
         <ListItem
           key={info.item.key}
-          onPressItem={() => props.handlePressItem(info.item.key)}
+          onPressItem={() => props.onSelectItem(info.item.key)}
           placeName={info.item.name}
           placeImage={info.item.image}
         />
