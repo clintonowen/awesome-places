@@ -1,8 +1,13 @@
+import { Navigation } from 'react-native-navigation';
+import { loadAuthScreen } from './src/navigation';
+
+Navigation.events().registerAppLaunchedListener(() => loadAuthScreen());
+
 // import React from 'react';
 // import { Navigation } from 'react-native-navigation';
 // import { AppRegistry } from 'react-native';
 // import { Provider } from 'react-redux';
-import App from './src/components/App';
+// import App from './src/components/App';
 // import store from './src/store/store';
 // import { name as appName } from './app.json';
 

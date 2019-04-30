@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import startMainTabs from '../MainTabs';
+import { startMainTabs } from '../../navigation';
 
 class AuthScreen extends Component {
   loginHandler () {
