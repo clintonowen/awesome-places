@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
-import { View } from 'react-native';
+import { ScrollView, View, Button, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import PlaceInput from '../../components/PlaceInput';
 import { addPlace } from '../../store/actions';
+import PlaceInput from '../../components/PlaceInput';
+import PickImage from '../../components/PickImage';
+import PickLocation from '../../components/PickLocation';
+import MainText from '../../components/UI/MainText';
+import HeadingText from '../../components/UI/HeadingText';
 
 class SharePlaceScreen extends Component {
   constructor (props) {
     super(props);
+    this.state = {
+      placeName: ''
+    };
     this.navigationEventListener = Navigation.events().bindComponent(this);
   }
 
@@ -31,20 +38,59 @@ class SharePlaceScreen extends Component {
     }
   }
 
-  placeAddedHandler (placeName) {
-    this.props.onAddPlace(placeName);
+  placeNameChangedHandler (placeName) {
+    this.setState({
+      placeName
+    });
+  }
+
+  placeAddedHandler () {
+    if (this.state.placeName.trim() !== '') {
+      this.props.onAddPlace(this.state.placeName);
+    }
   }
 
   render () {
     return (
-      <View>
-        <PlaceInput
-          onSubmitPlace={(placeName) => this.placeAddedHandler(placeName)}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <MainText>
+            <HeadingText>Share a Place with us!</HeadingText>
+          </MainText>
+          <PickImage />
+          <PickLocation />
+          <PlaceInput
+            placeName={this.state.placeName}
+            onChangeText={(name) => this.placeNameChangedHandler(name)}
+          />
+          <View style={styles.button}>
+            <Button
+              title='Share the Place!'
+              onPress={() => this.placeAddedHandler()}
+            />
+          </View>
+        </View>
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    flex: 1
+  },
+  placeholder: {
+    backgroundColor: '#EEE',
+    borderColor: 'black',
+    borderWidth: 1,
+    height: 150,
+    width: '80%'
+  },
+  button: {
+    margin: 8
+  }
+});
 
 const mapDispatchToProps = dispatch => {
   return {
