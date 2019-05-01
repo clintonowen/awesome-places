@@ -6,6 +6,31 @@ import { connect } from 'react-redux';
 import PlaceList from '../../components/PlaceList';
 
 class FindPlaceScreen extends Component {
+  constructor (props) {
+    super(props);
+    this.navigationEventListener = Navigation.events().bindComponent(this);
+  }
+
+  componentWillUnmount () {
+    if (this.navigationEventListener) {
+      this.navigationEventListener.remove();
+    }
+  }
+
+  navigationButtonPressed ({ buttonId }) {
+    switch (buttonId) {
+      case 'sideDrawerButton':
+        Navigation.mergeOptions(this.props.componentId, {
+          sideMenu: {
+            left: { visible: true }
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
   itemSelectedHandler (key) {
     const selectedPlace = this.props.places.find(place => place.key === key);
 

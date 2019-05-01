@@ -1,6 +1,11 @@
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { AUTH_SCREEN, FIND_PLACE_SCREEN, SHARE_PLACE_SCREEN } from './Screens';
+import {
+  AUTH_SCREEN,
+  FIND_PLACE_SCREEN,
+  SHARE_PLACE_SCREEN,
+  SIDE_DRAWER
+} from './Screens';
 import registerScreens from './registerScreens';
 
 // Register all screens on launch
@@ -24,9 +29,9 @@ export function loadAuthScreen () {
     statusBar: {
       style: 'light'
     },
-    layout: {
-      orientation: ['portrait']
-    },
+    // layout: {
+    //   orientation: ['portrait']
+    // },
     bottomTabs: {
       titleDisplayMode: 'alwaysShow'
     },
@@ -61,57 +66,82 @@ export function loadAuthScreen () {
 export function startMainTabs () {
   Promise.all([
     Icon.getImageSource('md-map', 30),
-    Icon.getImageSource('ios-share-alt', 30)
+    Icon.getImageSource('ios-share-alt', 30),
+    Icon.getImageSource('ios-menu', 30)
   ]).then(sources => {
     Navigation.setRoot({
       root: {
-        bottomTabs: {
-          children: [{
-            stack: {
-              children: [{
-                component: {
-                  name: FIND_PLACE_SCREEN,
-                  options: {
-                    topBar: {
-                      title: {
-                        text: 'Find Place'
-                      }
-                    }
-                  }
-                }
-              }],
-              options: {
-                bottomTab: {
-                  icon: sources[0],
-                  testID: 'FIND_TAB_BAR_BUTTON',
-                  text: 'Find Place'
-                }
-              }
+        sideMenu: {
+          left: {
+            component: {
+              id: 'leftSideDrawer',
+              name: SIDE_DRAWER
             }
           },
-          {
-            stack: {
+          center: {
+            bottomTabs: {
               children: [{
-                component: {
-                  name: SHARE_PLACE_SCREEN,
-                  options: {
-                    topBar: {
-                      title: {
-                        text: 'Share Place'
+                stack: {
+                  children: [{
+                    component: {
+                      name: FIND_PLACE_SCREEN,
+                      options: {
+                        topBar: {
+                          title: {
+                            text: 'Find Place'
+                          },
+                          leftButtons: [
+                            {
+                              id: 'sideDrawerButton',
+                              icon: sources[2],
+                              text: 'Menu'
+                            }
+                          ]
+                        }
                       }
+                    }
+                  }],
+                  options: {
+                    bottomTab: {
+                      icon: sources[0],
+                      testID: 'FIND_TAB_BAR_BUTTON',
+                      text: 'Find Place'
                     }
                   }
                 }
-              }],
-              options: {
-                bottomTab: {
-                  icon: sources[1],
-                  testID: 'SHARE_TAB_BAR_BUTTON',
-                  text: 'Share Place'
+              },
+              {
+                stack: {
+                  children: [{
+                    component: {
+                      name: SHARE_PLACE_SCREEN,
+                      options: {
+                        topBar: {
+                          title: {
+                            text: 'Share Place'
+                          },
+                          leftButtons: [
+                            {
+                              id: 'sideDrawerButton',
+                              icon: sources[2],
+                              text: 'Menu'
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }],
+                  options: {
+                    bottomTab: {
+                      icon: sources[1],
+                      testID: 'SHARE_TAB_BAR_BUTTON',
+                      text: 'Share Place'
+                    }
+                  }
                 }
-              }
+              }]
             }
-          }]
+          }
         }
       }
     });

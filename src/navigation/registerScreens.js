@@ -6,13 +6,15 @@ import {
   AuthScreen,
   FindPlaceScreen,
   SharePlaceScreen,
-  PlaceDetailScreen
+  PlaceDetailScreen,
+  SideDrawer
 } from '../screens';
 import {
   AUTH_SCREEN,
   SHARE_PLACE_SCREEN,
   FIND_PLACE_SCREEN,
-  PLACE_DETAIL_SCREEN
+  PLACE_DETAIL_SCREEN,
+  SIDE_DRAWER
 } from './Screens';
 
 function WrappedComponent (Component) {
@@ -45,6 +47,10 @@ export default function () {
   Navigation.registerComponent(
     PLACE_DETAIL_SCREEN,
     () => WrappedComponent(PlaceDetailScreen)
+  );
+  Navigation.registerComponent(
+    SIDE_DRAWER,
+    () => SideDrawer
   );
   // console.info('All screens have been registered...');
 }
