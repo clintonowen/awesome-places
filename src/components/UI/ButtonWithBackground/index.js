@@ -11,14 +11,13 @@ const buttonWithBackground = props => (
 
 const styles = StyleSheet.create({
   button: {
-    borderColor: 'black',
-    borderRadius: 5,
-    borderWidth: 1,
-    padding: 10,
-    margin: 5
+    borderRadius: 2,
+    padding: 8,
+    margin: 8
   },
   text: {
-    color: 'black'
+    color: 'white',
+    fontWeight: 'bold'
   }
 });
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
-import { ScrollView, View, Button, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { addPlace } from '../../store/actions';
 import PlaceInput from '../../components/PlaceInput';
@@ -8,6 +8,7 @@ import PickImage from '../../components/PickImage';
 import PickLocation from '../../components/PickLocation';
 import MainText from '../../components/UI/MainText';
 import HeadingText from '../../components/UI/HeadingText';
+import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 
 class SharePlaceScreen extends Component {
   constructor (props) {
@@ -64,10 +65,12 @@ class SharePlaceScreen extends Component {
             onChangeText={(name) => this.placeNameChangedHandler(name)}
           />
           <View style={styles.button}>
-            <Button
-              title='Share the Place!'
+            <ButtonWithBackground
+              color='#2196F3'
               onPress={() => this.placeAddedHandler()}
-            />
+            >
+              Share the Place!
+            </ButtonWithBackground>
           </View>
         </View>
       </ScrollView>
@@ -79,13 +82,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1
-  },
-  placeholder: {
-    backgroundColor: '#EEE',
-    borderColor: 'black',
-    borderWidth: 1,
-    height: 150,
-    width: '80%'
   },
   button: {
     margin: 8

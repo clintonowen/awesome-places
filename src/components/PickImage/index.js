@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Image, Button, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 import imagePlaceholder from '../../assets/beautiful-place.jpg';
 
 export class PickImage extends Component {
@@ -9,9 +10,12 @@ export class PickImage extends Component {
         <View style={styles.placeholder}>
           <Image source={imagePlaceholder} style={styles.previewImage} />
         </View>
-        <View style={styles.button}>
-          <Button title='Pick Image' onPress={() => alert('Pick Image!')} />
-        </View>
+        <ButtonWithBackground
+          color='#2196F3'
+          onPress={() => alert('Pick Image!')}
+        >
+          Pick Image
+        </ButtonWithBackground>
       </React.Fragment>
     );
   }
@@ -28,9 +32,6 @@ const styles = StyleSheet.create({
   previewImage: {
     height: '100%',
     width: '100%'
-  },
-  button: {
-    margin: 8
   }
 });
 

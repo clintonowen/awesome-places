@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 
 export class PickLocation extends Component {
   render () {
@@ -8,9 +9,12 @@ export class PickLocation extends Component {
         <View style={styles.placeholder}>
           <Text>Map</Text>
         </View>
-        <View style={styles.button}>
-          <Button title='Locate Me' onPress={() => alert('Pick Location!')} />
-        </View>
+        <ButtonWithBackground
+          color='#2196F3'
+          onPress={() => alert('Pick Location!')}
+        >
+          Locate Me
+        </ButtonWithBackground>
       </React.Fragment>
     );
   }
@@ -23,9 +27,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 150,
     width: '80%'
-  },
-  button: {
-    margin: 8
   }
 });
 

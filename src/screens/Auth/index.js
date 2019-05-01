@@ -23,7 +23,7 @@ class AuthScreen extends Component {
             <HeadingText>Please Log In</HeadingText>
           </MainText>
           <ButtonWithBackground
-            color='#29AAF4'
+            color='#2196F3'
             onPress={() => alert('Hello')}
           >
             Switch to Login
@@ -33,7 +33,10 @@ class AuthScreen extends Component {
             <DefaultInput style={styles.input} placeholder='Password' />
             <DefaultInput style={styles.input} placeholder='Confirm Password' />
           </View>
-          <ButtonWithBackground color='#29AAF4' onPress={() => this.loginHandler()}>
+          <ButtonWithBackground
+            color='#2196F3'
+            onPress={() => this.loginHandler()}
+          >
             Submit
           </ButtonWithBackground>
         </View>
