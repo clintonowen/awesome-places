@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     flex: 1,
-    paddingTop: 50
+    paddingTop: Platform.OS === 'android' ? 0 : 30
   },
   drawerItem: {
     alignItems: 'center',
