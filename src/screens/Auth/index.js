@@ -13,11 +13,17 @@ class AuthScreen extends Component {
     this.state = {
       viewMode: Dimensions.get('window').height > 500 ? 'portrait' : 'landscape'
     };
+    this.updateStyles = this.updateStyles.bind(this);
+    Dimensions.addEventListener('change', this.updateStyles);
+  }
 
-    Dimensions.addEventListener('change', (dims) => {
-      this.setState({
-        viewMode: dims.window.height > 500 ? 'portrait' : 'landscape'
-      });
+  componentWillUnmount () {
+    Dimensions.removeEventListener('change', this.updateStyles);
+  }
+
+  updateStyles (dims) {
+    this.setState({
+      viewMode: dims.window.height > 500 ? 'portrait' : 'landscape'
     });
   }
 
@@ -61,7 +67,7 @@ class AuthScreen extends Component {
           </View>
           <ButtonWithBackground
             color='#2196F3'
-            onPress={() => this.loginHandler()}
+            onPress={this.loginHandler}
           >
             Submit
           </ButtonWithBackground>

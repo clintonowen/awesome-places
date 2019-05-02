@@ -16,6 +16,8 @@ class SharePlaceScreen extends Component {
     this.state = {
       placeName: ''
     };
+    this.placeNameChangedHandler = this.placeNameChangedHandler.bind(this);
+    this.placeAddedHandler = this.placeAddedHandler.bind(this);
     this.navigationEventListener = Navigation.events().bindComponent(this);
   }
 
@@ -62,12 +64,12 @@ class SharePlaceScreen extends Component {
           <PickLocation />
           <PlaceInput
             placeName={this.state.placeName}
-            onChangeText={(name) => this.placeNameChangedHandler(name)}
+            onChangeText={this.placeNameChangedHandler}
           />
           <View style={styles.button}>
             <ButtonWithBackground
               color='#2196F3'
-              onPress={() => this.placeAddedHandler()}
+              onPress={this.placeAddedHandler}
             >
               Share the Place!
             </ButtonWithBackground>

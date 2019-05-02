@@ -8,12 +8,13 @@ import PlaceList from '../../components/PlaceList';
 class FindPlaceScreen extends Component {
   constructor (props) {
     super(props);
-    this.navigationEventListener = Navigation.events().bindComponent(this);
+    this.itemSelectedHandler = this.itemSelectedHandler.bind(this);
+    this.navEventListener = Navigation.events().bindComponent(this);
   }
 
   componentWillUnmount () {
-    if (this.navigationEventListener) {
-      this.navigationEventListener.remove();
+    if (this.navEventListener) {
+      this.navEventListener.remove();
     }
   }
 
@@ -56,7 +57,7 @@ class FindPlaceScreen extends Component {
       <View>
         <PlaceList
           places={this.props.places}
-          onSelectItem={(key) => this.itemSelectedHandler(key)}
+          onSelectItem={this.itemSelectedHandler}
         />
       </View>
     );
