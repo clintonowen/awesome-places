@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
 import {
-  ScrollView,
   View,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   StyleSheet,
   Keyboard
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { connect } from 'react-redux';
 import { addPlace } from '../../store/actions';
 import validate from '../../utils/validators';
@@ -22,7 +21,6 @@ class SharePlaceScreen extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      kbAvoid: true,
       controls: {
         placeName: {
           value: '',
@@ -34,20 +32,15 @@ class SharePlaceScreen extends Component {
         }
       }
     };
-    this.setKbAvoid = this.setKbAvoid.bind(this);
     this.placeNameChangedHandler = this.placeNameChangedHandler.bind(this);
     this.placeAddedHandler = this.placeAddedHandler.bind(this);
     this.navigationEventListener = Navigation.events().bindComponent(this);
-    Keyboard.addListener('keyboardDidShow', this.setKbAvoid);
-    Keyboard.addListener('keyboardDidHide', this.setKbAvoid);
   }
 
   componentWillUnmount () {
     if (this.navigationEventListener) {
       this.navigationEventListener.remove();
     }
-    Keyboard.removeAllListeners('keyboardDidShow');
-    Keyboard.removeAllListeners('keyboardDidHide');
   }
 
   navigationButtonPressed ({ buttonId }) {
@@ -62,14 +55,6 @@ class SharePlaceScreen extends Component {
       default:
         break;
     }
-  }
-
-  setKbAvoid () {
-    this.setState(prevState => {
-      return {
-        kbAvoid: !prevState.kbAvoid
-      };
-    });
   }
 
   placeNameChangedHandler (value) {
@@ -96,36 +81,30 @@ class SharePlaceScreen extends Component {
 
   render () {
     return (
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
-            <KeyboardAvoidingView
-              style={styles.container}
-              behavior='padding'
-              enabled={this.state.kbAvoid}
-            >
-              <MainText>
-                <HeadingText>Share a Place with us!</HeadingText>
-              </MainText>
-              <PickImage />
-              <PickLocation />
-              <PlaceInput
-                placeData={this.state.controls.placeName}
-                onChangeText={this.placeNameChangedHandler}
-              />
-              <View style={styles.button}>
-                <ButtonWithBackground
-                  color='#2196F3'
-                  onPress={this.placeAddedHandler}
-                  disabled={!this.state.controls.placeName.valid}
-                >
-                  Share the Place!
-                </ButtonWithBackground>
-              </View>
-            </KeyboardAvoidingView>
+            <MainText>
+              <HeadingText>Share a Place with us!</HeadingText>
+            </MainText>
+            <PickImage />
+            <PickLocation />
+            <PlaceInput
+              placeData={this.state.controls.placeName}
+              onChangeText={this.placeNameChangedHandler}
+            />
+            <View style={styles.button}>
+              <ButtonWithBackground
+                color='#2196F3'
+                onPress={this.placeAddedHandler}
+                disabled={!this.state.controls.placeName.valid}
+              >
+                Share the Place!
+              </ButtonWithBackground>
+            </View>
           </View>
         </TouchableWithoutFeedback>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }
