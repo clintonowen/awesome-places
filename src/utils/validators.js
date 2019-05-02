@@ -14,6 +14,9 @@ const validate = (value, rules, checkValue) => {
       case 'equalTo':
         isValid = isValid && equalityValidator(value, checkValue);
         break;
+      case 'notEmpty':
+        isValid = isValid && notEmptyValidator(value);
+        break;
       default:
         break;
     }
@@ -36,6 +39,10 @@ const whiteSpaceValidator = (value) => {
 
 const equalityValidator = (value, checkValue) => {
   return value === checkValue;
+};
+
+const notEmptyValidator = (value) => {
+  return value.trim() !== '';
 };
 
 export default validate;

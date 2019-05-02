@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { Navigation } from 'react-native-navigation';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import {
+  ScrollView,
+  View,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  StyleSheet,
+  Keyboard
+} from 'react-native';
 import { connect } from 'react-redux';
 import { addPlace } from '../../store/actions';
+import validate from '../../utils/validators';
 import PlaceInput from '../../components/PlaceInput';
 import PickImage from '../../components/PickImage';
 import PickLocation from '../../components/PickLocation';
@@ -14,17 +22,32 @@ class SharePlaceScreen extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      placeName: ''
+      kbAvoid: true,
+      controls: {
+        placeName: {
+          value: '',
+          valid: false,
+          touched: false,
+          rules: {
+            notEmpty: true
+          }
+        }
+      }
     };
+    this.setKbAvoid = this.setKbAvoid.bind(this);
     this.placeNameChangedHandler = this.placeNameChangedHandler.bind(this);
     this.placeAddedHandler = this.placeAddedHandler.bind(this);
     this.navigationEventListener = Navigation.events().bindComponent(this);
+    Keyboard.addListener('keyboardDidShow', this.setKbAvoid);
+    Keyboard.addListener('keyboardDidHide', this.setKbAvoid);
   }
 
   componentWillUnmount () {
     if (this.navigationEventListener) {
       this.navigationEventListener.remove();
     }
+    Keyboard.removeAllListeners('keyboardDidShow');
+    Keyboard.removeAllListeners('keyboardDidHide');
   }
 
   navigationButtonPressed ({ buttonId }) {
@@ -41,40 +64,67 @@ class SharePlaceScreen extends Component {
     }
   }
 
-  placeNameChangedHandler (placeName) {
-    this.setState({
-      placeName
+  setKbAvoid () {
+    this.setState(prevState => {
+      return {
+        kbAvoid: !prevState.kbAvoid
+      };
+    });
+  }
+
+  placeNameChangedHandler (value) {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          placeName: {
+            ...prevState.controls.placeName,
+            value,
+            valid: validate(value, prevState.controls.placeName.rules),
+            touched: true
+          }
+        }
+      };
     });
   }
 
   placeAddedHandler () {
-    if (this.state.placeName.trim() !== '') {
-      this.props.onAddPlace(this.state.placeName);
+    if (this.state.controls.placeName.value.trim() !== '') {
+      this.props.onAddPlace(this.state.controls.placeName.value);
     }
   }
 
   render () {
     return (
       <ScrollView>
-        <View style={styles.container}>
-          <MainText>
-            <HeadingText>Share a Place with us!</HeadingText>
-          </MainText>
-          <PickImage />
-          <PickLocation />
-          <PlaceInput
-            placeName={this.state.placeName}
-            onChangeText={this.placeNameChangedHandler}
-          />
-          <View style={styles.button}>
-            <ButtonWithBackground
-              color='#2196F3'
-              onPress={this.placeAddedHandler}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <KeyboardAvoidingView
+              style={styles.container}
+              behavior='padding'
+              enabled={this.state.kbAvoid}
             >
-              Share the Place!
-            </ButtonWithBackground>
+              <MainText>
+                <HeadingText>Share a Place with us!</HeadingText>
+              </MainText>
+              <PickImage />
+              <PickLocation />
+              <PlaceInput
+                placeData={this.state.controls.placeName}
+                onChangeText={this.placeNameChangedHandler}
+              />
+              <View style={styles.button}>
+                <ButtonWithBackground
+                  color='#2196F3'
+                  onPress={this.placeAddedHandler}
+                  disabled={!this.state.controls.placeName.valid}
+                >
+                  Share the Place!
+                </ButtonWithBackground>
+              </View>
+            </KeyboardAvoidingView>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     );
   }
@@ -83,7 +133,8 @@ class SharePlaceScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    flex: 1
+    flex: 1,
+    width: '100%'
   },
   button: {
     margin: 8

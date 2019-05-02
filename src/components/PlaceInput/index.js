@@ -5,7 +5,9 @@ const placeInput = props => (
   <DefaultInput
     placeholder='Place Name'
     onChangeText={props.onChangeText}
-    value={props.placeName}
+    value={props.placeData.value}
+    valid={props.placeData.valid}
+    touched={props.placeData.touched}
   />
 );
 
