@@ -1,15 +1,12 @@
-import {
-  ADD_PLACE,
-  DELETE_PLACE,
-  makeId
-} from '../actions';
+import { ADD_PLACE, DELETE_PLACE } from '../actions';
+import { makeId } from '../../utils/utils';
 // import placeImage from '../../assets/beautiful-place.jpg';
 
 const initialState = {
   places: []
 };
 
-const reducer = (state = initialState, action) => {
+const placesReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PLACE:
       return {
@@ -33,4 +30,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
+export default placesReducer;
