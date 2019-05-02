@@ -16,16 +16,17 @@ export function loadAuthScreen () {
   Navigation.setDefaultOptions({
     topBar: {
       background: {
-        color: '#039893'
+        color: '#EEE'
       },
       title: {
-        color: 'white'
+        color: '#666'
       },
       backButton: {
         // title: '', // Remove previous screen name from back button
-        color: 'white'
+        color: '#2196F3'
       },
-      buttonColor: 'white'
+      leftButtonColor: '#2196F3',
+      rightButtonColor: '#2196F3'
     },
     statusBar: {
       style: 'light'
@@ -34,6 +35,7 @@ export function loadAuthScreen () {
     //   orientation: ['portrait']
     // },
     bottomTabs: {
+      backgroundColor: '#EEE',
       titleDisplayMode: 'alwaysShow'
     },
     bottomTab: {
