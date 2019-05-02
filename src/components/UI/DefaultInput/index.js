@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     borderColor: '#EEE',
     borderWidth: 1,
     padding: 5,
-    margin: 8,
+    marginBottom: 8,
+    marginTop: 8,
     width: '100%'
   }
 });
