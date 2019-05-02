@@ -2,8 +2,6 @@
 
 Awesome Places is a sample iOS/Android application built with React Native following Maximilian Schwarzmüller's Udemy course, [React Native - The Practical Guide](https://www.udemy.com/react-native-the-practical-guide/).
 
-![](images/screenshot-5.png)
-
 ## Technology Stack
 * React, React Native
 * Redux, React-Redux
