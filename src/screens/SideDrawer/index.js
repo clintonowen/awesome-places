@@ -7,9 +7,14 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+import { loadAuthScreen } from '../../navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export class SideDrawer extends Component {
+  handleLogout () {
+    loadAuthScreen();
+  }
+
   render () {
     return (
       <View
@@ -19,7 +24,7 @@ export class SideDrawer extends Component {
           { width: Dimensions.get('window').width * 0.8 }
         ]}
       >
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this.handleLogout}>
           <View style={styles.drawerItem}>
             <Icon
               name={Platform.OS === 'android' ? 'md-log-out' : 'ios-log-out'}
