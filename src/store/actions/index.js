@@ -4,5 +4,6 @@ export {
 } from './places';
 
 export {
-  tryAuth, TRY_AUTH
+  authRequest, AUTH_REQUEST,
+  clearAuth, CLEAR_AUTH
 } from './auth';

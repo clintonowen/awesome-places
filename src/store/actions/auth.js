@@ -1,7 +1,14 @@
-export const TRY_AUTH = 'TRY_AUTH';
-export const tryAuth = (authData) => {
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const authRequest = (authData) => {
   return {
-    type: TRY_AUTH,
+    type: AUTH_REQUEST,
     authData
+  };
+};
+
+export const CLEAR_AUTH = 'CLEAR_AUTH';
+export const clearAuth = () => {
+  return {
+    type: CLEAR_AUTH
   };
 };

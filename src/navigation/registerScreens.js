@@ -50,7 +50,7 @@ export default function () {
   );
   Navigation.registerComponent(
     SIDE_DRAWER,
-    () => SideDrawer
+    () => WrappedComponent(SideDrawer)
   );
   // console.info('All screens have been registered...');
 }

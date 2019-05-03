@@ -1,4 +1,4 @@
-import { ADD_PLACE, DELETE_PLACE } from '../actions';
+import { ADD_PLACE, DELETE_PLACE, CLEAR_AUTH } from '../actions';
 import { makeId } from '../../utils/utils';
 // import placeImage from '../../assets/beautiful-place.jpg';
 
@@ -8,6 +8,8 @@ const initialState = {
 
 const placesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CLEAR_AUTH:
+      return { ...initialState };
     case ADD_PLACE:
       return {
         ...state,

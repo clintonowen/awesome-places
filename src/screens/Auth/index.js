@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { startMainTabs } from '../../navigation';
-import { tryAuth } from '../../store/actions';
+import { authRequest } from '../../store/actions';
 import validate from '../../utils/validators';
 import MainText from '../../components/UI/MainText';
 import HeadingText from '../../components/UI/HeadingText';
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: (authData) => dispatch(tryAuth(authData))
+    onLogin: (authData) => dispatch(authRequest(authData))
   };
 };
 

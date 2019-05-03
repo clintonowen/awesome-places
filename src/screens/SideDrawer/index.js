@@ -7,12 +7,20 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+import { connect } from 'react-redux';
 import { loadAuthScreen } from '../../navigation';
+import { clearAuth } from '../../store/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export class SideDrawer extends Component {
+  constructor (props) {
+    super(props);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
   handleLogout () {
     loadAuthScreen();
+    this.props.onLogout();
   }
 
   render () {
@@ -57,4 +65,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SideDrawer;
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(clearAuth())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SideDrawer);
