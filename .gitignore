@@ -59,10 +59,10 @@ buck-out/
 app-env
 
 # Files with secret API keys
-AndroidManifest.xml
-AppDelegate.m
+*/AndroidManifest.xml
+*/AppDelegate.m
 
 # Large GoogleMaps files
-GoogleMaps
-GoogleMapsBase
-GoogleMapsCore
+*/GoogleMaps
+*/GoogleMapsBase
+*/GoogleMapsCore
