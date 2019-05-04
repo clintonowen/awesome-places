@@ -15,20 +15,74 @@ export class PickLocation extends Component {
           Dimensions.get('window').width /
           Dimensions.get('window').height *
           0.0522
-      }
+      },
+      locationChosen: false
     };
+    this.pickLocationHandler = this.pickLocationHandler.bind(this);
+    this.getLocationHandler = this.getLocationHandler.bind(this);
   }
+
+  pickLocationHandler (event) {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    this.map.animateToRegion({
+      ...this.state.focusedLocation,
+      latitude,
+      longitude
+    });
+    this.setState(prevState => {
+      return {
+        focusedLocation: {
+          ...prevState.focusedLocation,
+          latitude,
+          longitude
+        },
+        locationChosen: true
+      };
+    });
+  }
+
+  getLocationHandler () {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const { latitude, longitude } = pos.coords;
+      const coordsEvent = {
+        nativeEvent: {
+          coordinate: {
+            latitude,
+            longitude
+          }
+        }
+      };
+      this.pickLocationHandler(coordsEvent);
+    },
+    err => {
+      console.log(err);
+      alert('Fetching your location failed. Please click on the map to pick one manually.');
+    });
+  }
+
   render () {
+    let marker;
+
+    if (this.state.locationChosen) {
+      marker = (
+        <MapView.Marker coordinate={this.state.focusedLocation} />
+      );
+    }
+
     return (
       <React.Fragment>
         <MapView
           provider={PROVIDER_GOOGLE}
           initialRegion={this.state.focusedLocation}
           style={styles.map}
-        />
+          onPress={this.pickLocationHandler}
+          ref={ref => { this.map = ref; }}
+        >
+          {marker}
+        </MapView>
         <ButtonWithBackground
           color='#2196F3'
-          onPress={() => alert('Pick Location!')}
+          onPress={this.getLocationHandler}
         >
           Locate Me
         </ButtonWithBackground>
