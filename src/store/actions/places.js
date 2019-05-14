@@ -1,9 +1,10 @@
 export const ADD_PLACE = 'ADD_PLACE';
-export const addPlace = (placeName, location) => {
+export const addPlace = (placeName, location, image) => {
   return {
     type: ADD_PLACE,
     placeName,
-    location
+    location,
+    image
   };
 };
 
