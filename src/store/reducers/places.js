@@ -18,8 +18,9 @@ const placesReducer = (state = initialState, action) => {
           name: action.placeName,
           // image: placeImage
           image: {
-            uri: 'https://i.imgur.com/0uJptVU.jpg'
-          }
+            uri: action.image.uri
+          },
+          location: action.location
         })
       };
     case DELETE_PLACE:

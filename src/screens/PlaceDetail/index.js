@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions
 } from 'react-native';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { connect } from 'react-redux';
 import { deletePlace } from '../../store/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -48,11 +49,29 @@ export class PlaceDetail extends Component {
           styles[`${this.state.viewMode}Container`]
         ]}
       >
-        <View style={styles.subContainer}>
-          <Image
-            source={this.props.selectedPlace.image}
-            style={styles.placeImage}
-          />
+        <View style={styles.placeDetailContainer}>
+          <View style={styles.subContainer}>
+            <Image
+              source={this.props.selectedPlace.image}
+              style={styles.placeImage}
+            />
+          </View>
+          <View style={styles.subContainer}>
+            <MapView
+              provider={PROVIDER_GOOGLE}
+              initialRegion={{
+                ...this.props.selectedPlace.location,
+                latitudeDelta: 0.4,
+                longitudeDelta:
+                  Dimensions.get('window').width /
+                  Dimensions.get('window').height *
+                  0.0122
+              }}
+              style={styles.map}
+            >
+              <MapView.Marker coordinate={this.props.selectedPlace.location} />
+            </MapView>
+          </View>
         </View>
         <View style={styles.subContainer}>
           <Text style={styles.placeName}>{this.props.selectedPlace.name}</Text>
@@ -82,13 +101,18 @@ const styles = StyleSheet.create({
   portraitContainer: {
     flexDirection: 'column'
   },
+  placeDetailContainer: {
+    flex: 2
+  },
   subContainer: {
     flex: 1
   },
   placeImage: {
-    height: 200,
-    resizeMode: 'contain',
+    height: '100%',
     width: '100%'
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
   },
   placeName: {
     fontSize: 28,

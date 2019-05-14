@@ -30,3 +30,11 @@ awesome-places/
 ├── package.json (NPM dependencies)
 └── README.md
 ```
+
+## Ignored Files
+Note that the following files are too large to commit and/or contain sensitive information (e.g. API keys) and are therefore not included in this public repo. They will need to be added locally if cloning this project.
+* android/app/src/main/AndroidManifest.xml
+* ios/rnclipracticalguide/AppDelegate.m
+* ios/GoogleMapsCore.framework/GoogleMapsCore
+* ios/GoogleMapsBase.framework/GoogleMapsBase
+* ios/GoogleMaps.framework/GoogleMaps

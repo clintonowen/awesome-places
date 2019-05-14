@@ -7,12 +7,15 @@
     "test": "jest",
     "ios": "react-native run-ios --simulator='iPhone SE'",
     "android-old": "react-native run android",
-    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug"
+    "android": "cd ./android && ./gradlew app:assembleDebug && ./gradlew installDebug",
+    "postinstall": "./node_modules/react-native-maps/enable-google-maps 'ios/**'"
   },
   "dependencies": {
     "react": "16.8.3",
     "react-native": "^0.59.6",
+    "react-native-image-picker": "^0.28.1",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
+    "react-native-maps": "^0.24.2",
     "react-native-navigation": "^2.18.3",
     "react-native-vector-icons": "^6.4.2",
     "react-redux": "^6.0.1",
