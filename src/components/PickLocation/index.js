@@ -14,7 +14,7 @@ export class PickLocation extends Component {
         longitudeDelta:
           Dimensions.get('window').width /
           Dimensions.get('window').height *
-          0.0522
+          0.0122
       },
       locationChosen: false
     };
