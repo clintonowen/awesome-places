@@ -1,16 +1,14 @@
 import {
-  ADD_PLACE_REQUEST,
+  CLEAR_AUTH,
+  FETCH_REQUEST,
+  FETCH_ERROR,
+  GET_PLACES_SUCCESS,
   ADD_PLACE_SUCCESS,
-  ADD_PLACE_ERROR,
-  DELETE_PLACE,
-  CLEAR_AUTH
 } from '../actions';
-import { makeId } from '../../utils/utils';
-// import placeImage from '../../assets/beautiful-place.jpg';
 
 const initialState = {
   error: null,
-  loading: false,
+  isLoading: false,
   places: []
 };
 
@@ -18,39 +16,34 @@ const placesReducer = (state = initialState, action) => {
   switch (action.type) {
     case CLEAR_AUTH:
       return { ...initialState };
-    case ADD_PLACE_REQUEST:
+    case FETCH_REQUEST:
       return {
         ...state,
         error: null,
-        loading: true
+        isLoading: true
       };
-    case ADD_PLACE_SUCCESS:
-      const { name, location } = action.data;
-      return {
-        ...state,
-        places: state.places.concat({
-          key: makeId(),
-          name,
-          // image: placeImage
-          // image: {
-          //   uri: action.image.uri
-          // },
-          location
-        }),
-        error: null,
-        loading: false
-      };
-    case ADD_PLACE_ERROR:
+    case FETCH_ERROR:
       return {
         ...state,
         error: action.error,
-        loading: false
+        isLoading: false
       };
-    case DELETE_PLACE:
+    case GET_PLACES_SUCCESS:
       return {
         ...state,
-        places: state.places.filter(place => place.key !== action.key)
+        places: action.places
       };
+    case ADD_PLACE_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        isLoading: false
+      };
+    // case DELETE_PLACE:
+    //   return {
+    //     ...state,
+    //     places: state.places.filter(place => place.key !== action.key)
+    //   };
     default:
       return state;
   }

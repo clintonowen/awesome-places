@@ -1,9 +1,10 @@
 export {
-  addPlace,
-  ADD_PLACE_REQUEST,
+  FETCH_REQUEST,
+  FETCH_ERROR,
+  GET_PLACES_SUCCESS,
   ADD_PLACE_SUCCESS,
-  ADD_PLACE_ERROR,
-  deletePlace, DELETE_PLACE
+  getPlaces,
+  addPlace
 } from './places';
 
 export {

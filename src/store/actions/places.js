@@ -1,66 +1,96 @@
-/* global fetch */
+/* global fetch alert */
 
 const API_BASE_URL = 'https://awesome-places-1556844574569-57303.firebaseio.com';
+const API_FUNC_URL = 'https://us-central1-awesome-places-1556844574569.cloudfunctions.net';
 
-export const ADD_PLACE_REQUEST = 'ADD_PLACE_REQUEST';
-export const addPlaceRequest = () => {
+export const FETCH_REQUEST = 'FETCH_REQUEST';
+export const fetchRequest = () => {
   return {
-    type: ADD_PLACE_REQUEST
+    type: FETCH_REQUEST
   };
 };
 
-export const ADD_PLACE_SUCCESS = 'ADD_PLACE_SUCCESS';
-export const addPlaceSuccess = data => {
+export const FETCH_ERROR = 'FETCH_ERROR';
+export const fetchError = error => {
   return {
-    type: ADD_PLACE_SUCCESS,
-    data
-  };
-};
-
-export const ADD_PLACE_ERROR = 'ADD_PLACE_ERROR';
-export const addPlaceError = error => {
-  return {
-    type: ADD_PLACE_ERROR,
+    type: FETCH_ERROR,
     error
   };
 };
 
-export const DELETE_PLACE = 'DELETE_PLACE';
-export const deletePlace = (key) => {
+export const GET_PLACES_SUCCESS = 'GET_PLACES_SUCCESS';
+export const getPlacesSuccess = places => {
   return {
-    type: DELETE_PLACE,
-    key
+    type: GET_PLACES_SUCCESS,
+    places
   };
 };
 
-export const addPlace = (placeName, location, image) => dispatch => {
-  // dispatch(addPlaceRequest());
-  const placeData = {
-    name: placeName,
-    location
+export const ADD_PLACE_SUCCESS = 'ADD_PLACE_SUCCESS';
+export const addPlaceSuccess = () => {
+  return {
+    type: ADD_PLACE_SUCCESS
   };
-  fetch('https://us-central1-awesome-places-1556844574569.cloudfunctions.net/storeImage', {
+};
+
+export const getPlaces = () => dispatch => {
+  dispatch(fetchRequest());
+  return fetch(`${API_BASE_URL}/places.json`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      const places = [];
+      for (let key in data) {
+        places.push({
+          ...data[key],
+          image: {
+            uri: data[key].image
+          },
+          id: key
+        });
+      }
+      return dispatch(getPlacesSuccess(places));
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Something went wrong, please try again!');
+      return dispatch(fetchError(err));
+    });
+};
+
+export const addPlace = (placeName, location, image) => dispatch => {
+  dispatch(fetchRequest());
+  return fetch(`${API_FUNC_URL}/storeImage`, {
     method: 'POST',
     body: JSON.stringify({
       image: image.base64
     })
   })
-  .then(res => res.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(err => console.log(err));
-  // return fetch(`${API_BASE_URL}/places.json`, {
-  //   method: 'POST',
-  //   body: JSON.stringify(placeData)
-  // })
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     console.log(data);
-  //     // return dispatch(addPlaceSuccess(data));
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     // return dispatch(addPlaceError(err));
-  //   });
+    .then(res => res.json())
+    .then(imgData => {
+      const placeData = {
+        name: placeName,
+        location,
+        image: imgData.imageUrl
+      };
+      return fetch(`${API_BASE_URL}/places.json`, {
+        method: 'POST',
+        body: JSON.stringify(placeData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          return dispatch(addPlaceSuccess());
+        })
+        .catch(err => {
+          console.log(err);
+          alert('Something went wrong, please try again!');
+          return dispatch(fetchError(err));
+        });
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Something went wrong, please try again!');
+      return dispatch(fetchError(err));
+    });
 };
