@@ -20,7 +20,7 @@ exports.storeImage = functions.https.onRequest((request, response) => {
     });
     const bucket = gcs.bucket('awesome-places-1556844574569.appspot.com');
     const uuid = UUID();
- 
+
     return bucket.upload(
       '/tmp/uploaded-image.jpg',
       {

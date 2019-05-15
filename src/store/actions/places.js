@@ -1,7 +1,6 @@
 /* global fetch alert */
 
-const API_BASE_URL = 'https://awesome-places-1556844574569-57303.firebaseio.com';
-const API_FUNC_URL = 'https://us-central1-awesome-places-1556844574569.cloudfunctions.net';
+const API_ID = 'awesome-places-1556844574569';
 
 export const FETCH_REQUEST = 'FETCH_REQUEST';
 export const fetchRequest = () => {
@@ -43,7 +42,7 @@ export const removePlace = key => {
 
 export const getPlaces = () => dispatch => {
   dispatch(fetchRequest());
-  return fetch(`${API_BASE_URL}/places.json`)
+  return fetch(`https://${API_ID}.firebaseio.com/places.json`)
     .then(res => res.json())
     .then(data => {
       console.log(data);
@@ -68,7 +67,7 @@ export const getPlaces = () => dispatch => {
 
 export const addPlace = (placeName, location, image) => dispatch => {
   dispatch(fetchRequest());
-  return fetch(`${API_FUNC_URL}/storeImage`, {
+  return fetch(`https://us-central1-${API_ID}.cloudfunctions.net/storeImage`, {
     method: 'POST',
     body: JSON.stringify({
       image: image.base64
@@ -81,14 +80,15 @@ export const addPlace = (placeName, location, image) => dispatch => {
         location,
         image: imgData.imageUrl
       };
-      return fetch(`${API_BASE_URL}/places.json`, {
+      return fetch(`https://${API_ID}.firebaseio.com/places.json`, {
         method: 'POST',
         body: JSON.stringify(placeData)
       })
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          return dispatch(fetchSuccess());
+          dispatch(fetchSuccess());
+          dispatch(getPlaces());
         })
         .catch(err => {
           console.log(err);
@@ -106,7 +106,7 @@ export const addPlace = (placeName, location, image) => dispatch => {
 export const deletePlace = (key) => dispatch => {
   dispatch(removePlace(key));
   dispatch(fetchRequest());
-  return fetch(`${API_BASE_URL}/places/${key}.json`, {
+  return fetch(`https://${API_ID}.firebaseio.com/places/${key}.json`, {
     method: 'DELETE'
   })
     .then(res => res.json())
