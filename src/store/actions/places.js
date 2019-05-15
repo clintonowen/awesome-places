@@ -39,17 +39,28 @@ export const addPlace = (placeName, location, image) => dispatch => {
     name: placeName,
     location
   };
-  return fetch(`${API_BASE_URL}/places.json`, {
+  fetch('https://us-central1-awesome-places-1556844574569.cloudfunctions.net/storeImage', {
     method: 'POST',
-    body: JSON.stringify(placeData)
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      // return dispatch(addPlaceSuccess(data));
+    body: JSON.stringify({
+      image: image.base64
     })
-    .catch(err => {
-      console.log(err);
-      // return dispatch(addPlaceError(err));
-    });
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(err => console.log(err));
+  // return fetch(`${API_BASE_URL}/places.json`, {
+  //   method: 'POST',
+  //   body: JSON.stringify(placeData)
+  // })
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     console.log(data);
+  //     // return dispatch(addPlaceSuccess(data));
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     // return dispatch(addPlaceError(err));
+  //   });
 };
