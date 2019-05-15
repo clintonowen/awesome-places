@@ -1,9 +1,10 @@
 import {
   CLEAR_AUTH,
   FETCH_REQUEST,
+  FETCH_SUCCESS,
   FETCH_ERROR,
   GET_PLACES_SUCCESS,
-  ADD_PLACE_SUCCESS,
+  REMOVE_PLACE
 } from '../actions';
 
 const initialState = {
@@ -22,6 +23,12 @@ const placesReducer = (state = initialState, action) => {
         error: null,
         isLoading: true
       };
+    case FETCH_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        isLoading: false
+      };
     case FETCH_ERROR:
       return {
         ...state,
@@ -31,19 +38,17 @@ const placesReducer = (state = initialState, action) => {
     case GET_PLACES_SUCCESS:
       return {
         ...state,
-        places: action.places
-      };
-    case ADD_PLACE_SUCCESS:
-      return {
-        ...state,
+        places: action.places,
         error: null,
         isLoading: false
       };
-    // case DELETE_PLACE:
-    //   return {
-    //     ...state,
-    //     places: state.places.filter(place => place.key !== action.key)
-    //   };
+    case REMOVE_PLACE:
+      return {
+        ...state,
+        places: state.places.filter(place => place.key !== action.key),
+        error: null,
+        isLoading: false
+      };
     default:
       return state;
   }

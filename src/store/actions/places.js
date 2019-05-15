@@ -10,6 +10,13 @@ export const fetchRequest = () => {
   };
 };
 
+export const FETCH_SUCCESS = 'FETCH_SUCCESS';
+export const fetchSuccess = () => {
+  return {
+    type: FETCH_SUCCESS
+  };
+};
+
 export const FETCH_ERROR = 'FETCH_ERROR';
 export const fetchError = error => {
   return {
@@ -26,10 +33,11 @@ export const getPlacesSuccess = places => {
   };
 };
 
-export const ADD_PLACE_SUCCESS = 'ADD_PLACE_SUCCESS';
-export const addPlaceSuccess = () => {
+export const REMOVE_PLACE = 'REMOVE_PLACE';
+export const removePlace = key => {
   return {
-    type: ADD_PLACE_SUCCESS
+    type: REMOVE_PLACE,
+    key
   };
 };
 
@@ -46,7 +54,7 @@ export const getPlaces = () => dispatch => {
           image: {
             uri: data[key].image
           },
-          id: key
+          key
         });
       }
       return dispatch(getPlacesSuccess(places));
@@ -80,13 +88,31 @@ export const addPlace = (placeName, location, image) => dispatch => {
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          return dispatch(addPlaceSuccess());
+          return dispatch(fetchSuccess());
         })
         .catch(err => {
           console.log(err);
           alert('Something went wrong, please try again!');
           return dispatch(fetchError(err));
         });
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Something went wrong, please try again!');
+      return dispatch(fetchError(err));
+    });
+};
+
+export const deletePlace = (key) => dispatch => {
+  dispatch(removePlace(key));
+  dispatch(fetchRequest());
+  return fetch(`${API_BASE_URL}/places/${key}.json`, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(parsedRes => {
+      console.log(parsedRes);
+      return dispatch(fetchSuccess());
     })
     .catch(err => {
       console.log(err);

@@ -1,10 +1,12 @@
 export {
   FETCH_REQUEST,
+  FETCH_SUCCESS,
   FETCH_ERROR,
   GET_PLACES_SUCCESS,
-  ADD_PLACE_SUCCESS,
+  REMOVE_PLACE,
   getPlaces,
-  addPlace
+  addPlace,
+  deletePlace
 } from './places';
 
 export {
