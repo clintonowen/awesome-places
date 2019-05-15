@@ -3,6 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import {
   View,
   TouchableWithoutFeedback,
+  ActivityIndicator,
   StyleSheet,
   Keyboard
 } from 'react-native';
@@ -120,6 +121,24 @@ class SharePlaceScreen extends Component {
   }
 
   render () {
+    let submitButton = (
+      <ButtonWithBackground
+        color='#2196F3'
+        onPress={this.placeAddedHandler}
+        disabled={
+          !this.state.controls.placeName.valid ||
+          !this.state.controls.location.valid ||
+          !this.state.controls.image.valid
+        }
+      >
+        Share the Place!
+      </ButtonWithBackground>
+    );
+    if (this.props.isLoading) {
+      submitButton = (
+        <ActivityIndicator />
+      );
+    }
     return (
       <KeyboardAwareScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -134,17 +153,7 @@ class SharePlaceScreen extends Component {
               onChangeText={this.placeNameChangedHandler}
             />
             <View style={styles.button}>
-              <ButtonWithBackground
-                color='#2196F3'
-                onPress={this.placeAddedHandler}
-                disabled={
-                  !this.state.controls.placeName.valid ||
-                  !this.state.controls.location.valid ||
-                  !this.state.controls.image.valid
-                }
-              >
-                Share the Place!
-              </ButtonWithBackground>
+              {submitButton}
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -164,10 +173,16 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.places.isLoading
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onAddPlace: (placeName, location, image) => dispatch(addPlace(placeName, location, image))
   };
 };
 
-export default connect(null, mapDispatchToProps)(SharePlaceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlaceScreen);

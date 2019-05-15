@@ -7,9 +7,10 @@ import {
   StyleSheet,
   Animated
 } from 'react-native';
-import { PLACE_DETAIL_SCREEN } from '../../navigation/Screens';
 import { connect } from 'react-redux';
+import { PLACE_DETAIL_SCREEN } from '../../navigation/Screens';
 import PlaceList from '../../components/PlaceList';
+import { getPlaces } from '../../store/actions';
 
 class FindPlaceScreen extends Component {
   constructor (props) {
@@ -22,6 +23,10 @@ class FindPlaceScreen extends Component {
     this.itemSelectedHandler = this.itemSelectedHandler.bind(this);
     this.placesSearchHandler = this.placesSearchHandler.bind(this);
     this.navEventListener = Navigation.events().bindComponent(this);
+  }
+
+  componentDidMount () {
+    this.props.onLoadPlaces();
   }
 
   componentWillUnmount () {
@@ -151,4 +156,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(FindPlaceScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadPlaces: () => dispatch(getPlaces())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FindPlaceScreen);
