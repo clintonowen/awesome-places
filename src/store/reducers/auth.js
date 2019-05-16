@@ -7,31 +7,35 @@ import {
 
 const initialState = {
   error: null,
-  isLoading: false
+  isLoading: false,
+  authToken: null
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CLEAR_AUTH:
-      return { ...initialState };
     case AUTH_REQUEST:
       return {
         ...state,
         error: null,
-        isLoading: true
+        isLoading: true,
+        authToken: null
       };
     case AUTH_SUCCESS:
       return {
         ...state,
         error: null,
-        isLoading: false
+        isLoading: false,
+        authToken: action.token
       };
     case AUTH_ERROR:
       return {
         ...state,
         error: action.error,
-        isLoading: false
+        isLoading: false,
+        authToken: null
       };
+    case CLEAR_AUTH:
+      return { ...initialState };
     default:
       return state;
   }

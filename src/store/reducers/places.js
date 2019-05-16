@@ -15,8 +15,6 @@ const initialState = {
 
 const placesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CLEAR_AUTH:
-      return { ...initialState };
     case FETCH_REQUEST:
       return {
         ...state,
@@ -49,6 +47,8 @@ const placesReducer = (state = initialState, action) => {
         error: null,
         isLoading: false
       };
+    case CLEAR_AUTH:
+      return { ...initialState };
     default:
       return state;
   }

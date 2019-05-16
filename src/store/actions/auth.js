@@ -10,9 +10,10 @@ export const authRequest = () => {
 };
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const authSuccess = () => {
+export const authSuccess = (token) => {
   return {
-    type: AUTH_SUCCESS
+    type: AUTH_SUCCESS,
+    token
   };
 };
 
@@ -60,10 +61,15 @@ export const tryAuth = (authData, endpoint, errMsg) => (dispatch) => {
     .then(res => res.json())
     .then(parsedRes => {
       console.log(parsedRes);
-      dispatch(authSuccess());
-      if (parsedRes.error) {
+      if (!parsedRes.idToken) {
+        if (parsedRes.error) {
+          dispatch(authError(parsedRes.error));
+        } else {
+          dispatch(authError(new Error(`${errMsg} failed.`)));
+        }
         alert(`${errMsg} failed. Please try again.`);
       } else {
+        dispatch(authSuccess(parsedRes.idToken));
         startMainTabs();
       }
     })
