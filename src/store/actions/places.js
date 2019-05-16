@@ -1,5 +1,7 @@
 /* global fetch alert */
 
+import { getAuthToken } from '../actions';
+
 const API_ID = 'awesome-places-1556844574569';
 
 export const FETCH_REQUEST = 'FETCH_REQUEST';
@@ -42,7 +44,14 @@ export const removePlace = key => {
 
 export const getPlaces = () => dispatch => {
   dispatch(fetchRequest());
-  return fetch(`https://${API_ID}.firebaseio.com/places.json`)
+  dispatch(getAuthToken())
+    .catch((err) => {
+      alert('No valid token found!');
+      return dispatch(fetchError(err));
+    })
+    .then(token => {
+      return fetch(`https://${API_ID}.firebaseio.com/places.json?auth=${token}`);
+    })
     .then(res => res.json())
     .then(data => {
       console.log(data);
@@ -104,11 +113,18 @@ export const addPlace = (placeName, location, image) => dispatch => {
 };
 
 export const deletePlace = (key) => dispatch => {
-  dispatch(removePlace(key));
   dispatch(fetchRequest());
-  return fetch(`https://${API_ID}.firebaseio.com/places/${key}.json`, {
-    method: 'DELETE'
-  })
+  dispatch(getAuthToken())
+    .catch((err) => {
+      alert('No valid token found!');
+      return dispatch(fetchError(err));
+    })
+    .then(token => {
+      dispatch(removePlace(key));
+      return fetch(`https://${API_ID}.firebaseio.com/places/${key}.json?auth=${token}`, {
+        method: 'DELETE'
+      });
+    })
     .then(res => res.json())
     .then(parsedRes => {
       console.log(parsedRes);

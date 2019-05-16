@@ -15,5 +15,6 @@ export {
   AUTH_ERROR,
   clearAuth, CLEAR_AUTH,
   login,
-  signup
+  signup,
+  getAuthToken
 } from './auth';

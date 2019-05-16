@@ -79,3 +79,14 @@ export const tryAuth = (authData, endpoint, errMsg) => (dispatch) => {
       alert(`${errMsg} failed. Please try again.`);
     });
 };
+
+export const getAuthToken = () => (dispatch, getState) => {
+  return new Promise((resolve, reject) => {
+    const token = getState().auth.authToken;
+    if (!token) {
+      reject(new Error('No authToken found.'));
+    } else {
+      resolve(token);
+    }
+  });
+};
