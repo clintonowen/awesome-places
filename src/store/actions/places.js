@@ -75,13 +75,25 @@ export const getPlaces = () => dispatch => {
 };
 
 export const addPlace = (placeName, location, image) => dispatch => {
+  let token;
   dispatch(fetchRequest());
-  return fetch(`https://us-central1-${API_ID}.cloudfunctions.net/storeImage`, {
-    method: 'POST',
-    body: JSON.stringify({
-      image: image.base64
+  dispatch(getAuthToken())
+    .catch((err) => {
+      alert('No valid token found!');
+      return dispatch(fetchError(err));
     })
-  })
+    .then(authToken => {
+      token = authToken;
+      return fetch(`https://us-central1-${API_ID}.cloudfunctions.net/storeImage`, {
+        method: 'POST',
+        body: JSON.stringify({
+          image: image.base64
+        }),
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    })
     .then(res => res.json())
     .then(imgData => {
       const placeData = {
@@ -89,7 +101,7 @@ export const addPlace = (placeName, location, image) => dispatch => {
         location,
         image: imgData.imageUrl
       };
-      return fetch(`https://${API_ID}.firebaseio.com/places.json`, {
+      return fetch(`https://${API_ID}.firebaseio.com/places.json?auth=${token}`, {
         method: 'POST',
         body: JSON.stringify(placeData)
       })
