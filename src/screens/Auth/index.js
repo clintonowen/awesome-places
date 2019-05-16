@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { startMainTabs } from '../../navigation';
-import { authRequest } from '../../store/actions';
+import { login, signup } from '../../store/actions';
 import validate from '../../utils/validators';
 import MainText from '../../components/UI/MainText';
 import HeadingText from '../../components/UI/HeadingText';
@@ -82,7 +82,11 @@ class AuthScreen extends Component {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value
     };
-    this.props.onLogin(authData);
+    if (this.state.authMode === 'login') {
+      this.props.onLogin(authData);
+    } else {
+      this.props.onSignup(authData);
+    }
     startMainTabs();
   }
 
@@ -256,7 +260,8 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: (authData) => dispatch(authRequest(authData))
+    onLogin: (authData) => dispatch(login(authData)),
+    onSignup: (authData) => dispatch(signup(authData))
   };
 };
 

@@ -1,3 +1,5 @@
+/* global alert */
+
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
