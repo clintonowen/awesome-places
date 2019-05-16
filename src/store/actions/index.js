@@ -10,12 +10,9 @@ export {
 } from './places';
 
 export {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  SIGNUP_REQUEST,
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR,
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_ERROR,
   clearAuth, CLEAR_AUTH,
   login,
   signup

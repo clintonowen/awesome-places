@@ -1,45 +1,25 @@
 /* global fetch alert */
 
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const loginRequest = () => {
+import { startMainTabs } from '../../navigation';
+
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const authRequest = () => {
   return {
-    type: LOGIN_REQUEST
+    type: AUTH_REQUEST
   };
 };
 
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const loginSuccess = () => {
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const authSuccess = () => {
   return {
-    type: LOGIN_SUCCESS
+    type: AUTH_SUCCESS
   };
 };
 
-export const LOGIN_ERROR = 'LOGIN_ERROR';
-export const loginError = (error) => {
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const authError = (error) => {
   return {
-    type: LOGIN_ERROR,
-    error
-  };
-};
-
-export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
-export const signupRequest = () => {
-  return {
-    type: SIGNUP_REQUEST
-  };
-};
-
-export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
-export const signupSuccess = () => {
-  return {
-    type: SIGNUP_SUCCESS
-  };
-};
-
-export const SIGNUP_ERROR = 'SIGNUP_ERROR';
-export const signupError = (error) => {
-  return {
-    type: SIGNUP_ERROR,
+    type: AUTH_ERROR,
     error
   };
 };
@@ -52,35 +32,21 @@ export const clearAuth = () => {
 };
 
 export const login = (authData) => (dispatch) => {
-  dispatch(loginRequest());
-  const { email, password } = authData;
-  fetch('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBRmBVFwUccMZNqTH6OIFB4etRKqDGJVm0', {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-      returnSecureToken: true
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(res => res.json())
-    .then(parsedRes => {
-      console.log(parsedRes);
-      dispatch(loginSuccess());
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch(loginError(err));
-      alert('Authentication failed. Please try again.');
-    });
+  const endpoint = 'verifyPassword';
+  const errMsg = 'Authentication';
+  dispatch(tryAuth(authData, endpoint, errMsg));
 };
 
 export const signup = (authData) => (dispatch) => {
-  dispatch(signupRequest());
+  const endpoint = 'signupNewUser';
+  const errMsg = 'Signup';
+  dispatch(tryAuth(authData, endpoint, errMsg));
+};
+
+export const tryAuth = (authData, endpoint, errMsg) => (dispatch) => {
+  dispatch(authRequest());
   const { email, password } = authData;
-  fetch('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyBRmBVFwUccMZNqTH6OIFB4etRKqDGJVm0', {
+  fetch(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/${endpoint}?key=AIzaSyBRmBVFwUccMZNqTH6OIFB4etRKqDGJVm0`, {
     method: 'POST',
     body: JSON.stringify({
       email,
@@ -94,11 +60,16 @@ export const signup = (authData) => (dispatch) => {
     .then(res => res.json())
     .then(parsedRes => {
       console.log(parsedRes);
-      dispatch(signupSuccess());
+      dispatch(authSuccess());
+      if (parsedRes.error) {
+        alert(`${errMsg} failed. Please try again.`);
+      } else {
+        startMainTabs();
+      }
     })
     .catch(err => {
       console.log(err);
-      dispatch(signupError(err));
-      alert('Signup failed. Please try again.');
+      dispatch(authError(err));
+      alert(`${errMsg} failed. Please try again.`);
     });
 };
