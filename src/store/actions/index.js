@@ -10,6 +10,13 @@ export {
 } from './places';
 
 export {
-  authRequest, AUTH_REQUEST,
-  clearAuth, CLEAR_AUTH
+  AUTH_REQUEST,
+  AUTH_SUCCESS,
+  AUTH_ERROR,
+  CLEAR_AUTH,
+  login,
+  signup,
+  getAuthToken,
+  tryAutoSignIn,
+  logout
 } from './auth';

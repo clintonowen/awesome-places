@@ -1,10 +1,10 @@
 import {
-  CLEAR_AUTH,
   FETCH_REQUEST,
   FETCH_SUCCESS,
   FETCH_ERROR,
   GET_PLACES_SUCCESS,
-  REMOVE_PLACE
+  REMOVE_PLACE,
+  CLEAR_AUTH
 } from '../actions';
 
 const initialState = {
@@ -15,8 +15,6 @@ const initialState = {
 
 const placesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CLEAR_AUTH:
-      return { ...initialState };
     case FETCH_REQUEST:
       return {
         ...state,
@@ -49,6 +47,8 @@ const placesReducer = (state = initialState, action) => {
         error: null,
         isLoading: false
       };
+    case CLEAR_AUTH:
+      return { ...initialState };
     default:
       return state;
   }

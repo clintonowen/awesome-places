@@ -4,13 +4,13 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   ImageBackground,
+  ActivityIndicator,
   StyleSheet,
   Dimensions,
   Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
-import { startMainTabs } from '../../navigation';
-import { authRequest } from '../../store/actions';
+import { login, signup, tryAutoSignIn } from '../../store/actions';
 import validate from '../../utils/validators';
 import MainText from '../../components/UI/MainText';
 import HeadingText from '../../components/UI/HeadingText';
@@ -59,6 +59,10 @@ class AuthScreen extends Component {
     Dimensions.addEventListener('change', this.updateStyles);
   }
 
+  componentDidMount () {
+    this.props.tryAutoSignIn();
+  }
+
   componentWillUnmount () {
     Dimensions.removeEventListener('change', this.updateStyles);
   }
@@ -82,8 +86,11 @@ class AuthScreen extends Component {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value
     };
-    this.props.onLogin(authData);
-    startMainTabs();
+    if (this.state.authMode === 'login') {
+      this.props.onLogin(authData);
+    } else {
+      this.props.onSignup(authData);
+    }
   }
 
   updateInputValue (key, value) {
@@ -123,7 +130,21 @@ class AuthScreen extends Component {
 
   render () {
     let headingText;
-    let confirmPassControl = null;
+    let confirmPassControl;
+    let submitButton = (
+      <ButtonWithBackground
+        color='#2196F3'
+        onPress={this.loginHandler}
+        disabled={
+          !this.state.controls.email.valid ||
+          !this.state.controls.password.valid ||
+          (!this.state.controls.confirmPass.valid &&
+            this.state.authMode === 'signup')
+        }
+      >
+        Submit
+      </ButtonWithBackground>
+    );
 
     if (this.state.authMode === 'signup') {
       confirmPassControl = (
@@ -148,6 +169,12 @@ class AuthScreen extends Component {
             Please {this.state.authMode === 'login' ? 'Login' : 'Sign Up'}
           </HeadingText>
         </MainText>
+      );
+    }
+
+    if (this.props.isLoading) {
+      submitButton = (
+        <ActivityIndicator />
       );
     }
 
@@ -200,18 +227,7 @@ class AuthScreen extends Component {
                   {confirmPassControl}
                 </View>
               </View>
-              <ButtonWithBackground
-                color='#2196F3'
-                onPress={this.loginHandler}
-                disabled={
-                  !this.state.controls.email.valid ||
-                  !this.state.controls.password.valid ||
-                  (!this.state.controls.confirmPass.valid &&
-                    this.state.authMode === 'signup')
-                }
-              >
-                Submit
-              </ButtonWithBackground>
+              {submitButton}
             </KeyboardAvoidingView>
           </View>
         </TouchableWithoutFeedback>
@@ -254,10 +270,18 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onLogin: (authData) => dispatch(authRequest(authData))
+    isLoading: state.auth.isLoading
   };
 };
 
-export default connect(null, mapDispatchToProps)(AuthScreen);
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin: (authData) => dispatch(login(authData)),
+    onSignup: (authData) => dispatch(signup(authData)),
+    tryAutoSignIn: () => dispatch(tryAutoSignIn())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
