@@ -1,5 +1,6 @@
 /* global fetch alert */
 
+import { AsyncStorage } from 'react-native';
 import { startMainTabs } from '../../navigation';
 
 export const AUTH_REQUEST = 'AUTH_REQUEST';
@@ -69,7 +70,7 @@ export const tryAuth = (authData, endpoint, errMsg) => (dispatch) => {
         }
         alert(`${errMsg} failed. Please try again.`);
       } else {
-        dispatch(authSuccess(parsedRes.idToken));
+        dispatch(storeAuthToken(parsedRes.idToken));
         startMainTabs();
       }
     })
@@ -84,9 +85,21 @@ export const getAuthToken = () => (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     const token = getState().auth.authToken;
     if (!token) {
-      reject(new Error('No authToken found.'));
+      AsyncStorage.getItem('ap:auth:token')
+        .then(storageToken => {
+          dispatch(authSuccess(storageToken));
+          resolve(storageToken);
+        })
+        .catch(() => {
+          reject(new Error('No authToken found.'));
+        });
     } else {
       resolve(token);
     }
   });
+};
+
+export const storeAuthToken = token => dispatch => {
+  dispatch(authSuccess(token));
+  AsyncStorage.setItem('ap:auth:token', token);
 };
