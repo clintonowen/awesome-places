@@ -13,10 +13,11 @@ export const authRequest = () => {
 };
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const authSuccess = (token) => {
+export const authSuccess = (token, expiryDate) => {
   return {
     type: AUTH_SUCCESS,
-    token
+    token,
+    expiryDate
   };
 };
 
@@ -90,7 +91,8 @@ export const tryAuth = (authData, endpoint, errMsg) => (dispatch) => {
 export const getAuthToken = () => (dispatch, getState) => {
   const promise = new Promise((resolve, reject) => {
     let token = getState().auth.authToken;
-    if (!token) {
+    const expiryDate = new Date(getState().auth.expiryDate);
+    if (!token || expiryDate <= new Date()) {
       AsyncStorage.getItem('ap:auth:token')
         .then(tokenFromStorage => {
           if (!tokenFromStorage) {
@@ -160,9 +162,9 @@ export const getAuthToken = () => (dispatch, getState) => {
 };
 
 export const storeAuthToken = (token, expiresIn, refreshToken) => dispatch => {
-  dispatch(authSuccess(token));
   const now = new Date();
   const expiryDate = (now.getTime() + expiresIn * 1000).toString();
+  dispatch(authSuccess(token, expiryDate));
   AsyncStorage.setItem('ap:auth:token', token);
   AsyncStorage.setItem('ap:auth:expiryDate', expiryDate);
   AsyncStorage.setItem('ap:auth:refreshToken', refreshToken);

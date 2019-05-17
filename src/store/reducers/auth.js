@@ -8,7 +8,8 @@ import {
 const initialState = {
   error: null,
   isLoading: false,
-  authToken: null
+  authToken: null,
+  expiryDate: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -18,21 +19,24 @@ const authReducer = (state = initialState, action) => {
         ...state,
         error: null,
         isLoading: true,
-        authToken: null
+        authToken: null,
+        expiryDate: null
       };
     case AUTH_SUCCESS:
       return {
         ...state,
         error: null,
         isLoading: false,
-        authToken: action.token
+        authToken: action.token,
+        expiryDate: action.expiryDate
       };
     case AUTH_ERROR:
       return {
         ...state,
         error: action.error,
         isLoading: false,
-        authToken: null
+        authToken: null,
+        expiryDate: null
       };
     case CLEAR_AUTH:
       return { ...initialState };
