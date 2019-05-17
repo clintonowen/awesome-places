@@ -1,10 +1,10 @@
 import {
-  CLEAR_AUTH,
   FETCH_REQUEST,
   FETCH_SUCCESS,
   FETCH_ERROR,
   GET_PLACES_SUCCESS,
-  REMOVE_PLACE
+  REMOVE_PLACE,
+  CLEAR_AUTH
 } from '../actions';
 
 const initialState = {

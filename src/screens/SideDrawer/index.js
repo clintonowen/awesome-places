@@ -8,21 +8,10 @@ import {
   Platform
 } from 'react-native';
 import { connect } from 'react-redux';
-import { loadAuthScreen } from '../../navigation';
-import { clearAuth } from '../../store/actions';
+import { logout } from '../../store/actions';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export class SideDrawer extends Component {
-  constructor (props) {
-    super(props);
-    this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  handleLogout () {
-    loadAuthScreen();
-    this.props.onLogout();
-  }
-
   render () {
     return (
       <View
@@ -32,7 +21,7 @@ export class SideDrawer extends Component {
           { width: Dimensions.get('window').width * 0.8 }
         ]}
       >
-        <TouchableOpacity onPress={this.handleLogout}>
+        <TouchableOpacity onPress={this.props.onLogout}>
           <View style={styles.drawerItem}>
             <Icon
               name={Platform.OS === 'android' ? 'md-log-out' : 'ios-log-out'}
@@ -67,7 +56,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogout: () => dispatch(clearAuth())
+    onLogout: () => dispatch(logout())
   };
 };
 

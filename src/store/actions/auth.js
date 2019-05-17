@@ -1,7 +1,7 @@
 /* global fetch alert */
 
 import AsyncStorage from '@react-native-community/async-storage';
-import { startMainTabs } from '../../navigation';
+import { loadAuthScreen, startMainTabs } from '../../navigation';
 
 const API_KEY = 'AIzaSyBRmBVFwUccMZNqTH6OIFB4etRKqDGJVm0';
 
@@ -179,7 +179,15 @@ export const tryAutoSignIn = () => dispatch => {
     });
 };
 
-export const clearAuthStorage = () => {
+export const clearAuthStorage = () => dispatch => {
   AsyncStorage.removeItem('ap:auth:token');
   AsyncStorage.removeItem('ap:auth:expiryDate');
+  // Return this so that we can chain a .then onto it in the `logout` action
+  return AsyncStorage.removeItem('ap:auth:refreshToken');
+};
+
+export const logout = () => dispatch => {
+  dispatch(clearAuth());
+  dispatch(clearAuthStorage())
+    .then(() => loadAuthScreen());
 };

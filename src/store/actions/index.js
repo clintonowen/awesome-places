@@ -13,9 +13,10 @@ export {
   AUTH_REQUEST,
   AUTH_SUCCESS,
   AUTH_ERROR,
-  clearAuth, CLEAR_AUTH,
+  CLEAR_AUTH,
   login,
   signup,
   getAuthToken,
-  tryAutoSignIn
+  tryAutoSignIn,
+  logout
 } from './auth';
