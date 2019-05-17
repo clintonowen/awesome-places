@@ -10,7 +10,7 @@ import {
   Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
-import { login, signup } from '../../store/actions';
+import { login, signup, tryAutoSignIn } from '../../store/actions';
 import validate from '../../utils/validators';
 import MainText from '../../components/UI/MainText';
 import HeadingText from '../../components/UI/HeadingText';
@@ -57,6 +57,10 @@ class AuthScreen extends Component {
     this.updateStyles = this.updateStyles.bind(this);
     this.loginHandler = this.loginHandler.bind(this);
     Dimensions.addEventListener('change', this.updateStyles);
+  }
+
+  componentDidMount () {
+    this.props.tryAutoSignIn();
   }
 
   componentWillUnmount () {
@@ -275,7 +279,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onLogin: (authData) => dispatch(login(authData)),
-    onSignup: (authData) => dispatch(signup(authData))
+    onSignup: (authData) => dispatch(signup(authData)),
+    tryAutoSignIn: () => dispatch(tryAutoSignIn())
   };
 };
 

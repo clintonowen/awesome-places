@@ -16,5 +16,6 @@ export {
   clearAuth, CLEAR_AUTH,
   login,
   signup,
-  getAuthToken
+  getAuthToken,
+  tryAutoSignIn
 } from './auth';
