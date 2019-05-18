@@ -5,23 +5,32 @@ import { StyleSheet, Dimensions } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 
+const initialState = {
+  focusedLocation: {
+    latitude: 41.8830301,
+    longitude: -87.6230739,
+    latitudeDelta: 0.0122,
+    longitudeDelta:
+      Dimensions.get('window').width /
+      Dimensions.get('window').height *
+      0.0122
+  },
+  locationChosen: false
+};
+
 export class PickLocation extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      focusedLocation: {
-        latitude: 41.8339037,
-        longitude: -87.8720463,
-        latitudeDelta: 0.4,
-        longitudeDelta:
-          Dimensions.get('window').width /
-          Dimensions.get('window').height *
-          0.0122
-      },
-      locationChosen: false
-    };
+    this.state = initialState;
+
+    this.resetState = this.resetState.bind(this);
     this.pickLocationHandler = this.pickLocationHandler.bind(this);
     this.getLocationHandler = this.getLocationHandler.bind(this);
+  }
+
+  resetState () {
+    this.setState({ ...initialState });
+    this.map.animateToRegion({ ...initialState.focusedLocation });
   }
 
   pickLocationHandler (event) {
@@ -79,7 +88,7 @@ export class PickLocation extends Component {
           initialRegion={this.state.focusedLocation}
           style={styles.map}
           onPress={this.pickLocationHandler}
-          ref={ref => { this.map = ref; }}
+          ref={ref => (this.map = ref)}
         >
           {marker}
         </MapView>
