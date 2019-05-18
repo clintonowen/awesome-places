@@ -13,7 +13,11 @@ export class PickImage extends Component {
   }
 
   pickImageHandler () {
-    ImagePicker.showImagePicker({ title: 'Add an Image' }, res => {
+    ImagePicker.showImagePicker({
+      title: 'Add an Image',
+      maxWidth: 800,
+      maxHeight: 600
+    }, res => {
       if (res.didCancel) {
         console.log('User canceled!');
       } else if (res.error) {
