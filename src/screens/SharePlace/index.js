@@ -52,6 +52,17 @@ class SharePlaceScreen extends Component {
     this.navigationEventListener = Navigation.events().bindComponent(this);
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.isLoading && !this.props.isLoading) {
+      this.resetState();
+      Navigation.mergeOptions('BottomTabsId', {
+        bottomTabs: {
+          currentTabIndex: 0
+        }
+      });
+    }
+  }
+
   componentWillUnmount () {
     if (this.navigationEventListener) {
       this.navigationEventListener.remove();
@@ -128,7 +139,6 @@ class SharePlaceScreen extends Component {
       this.state.controls.location.value,
       this.state.controls.image.value
     );
-    this.resetState();
   }
 
   render () {
