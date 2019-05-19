@@ -109,7 +109,6 @@ export const addPlace = (placeName, location, image) => dispatch => {
         .then(data => {
           console.log(data);
           dispatch(fetchSuccess());
-          dispatch(getPlaces());
         })
         .catch(err => {
           console.log(err);
