@@ -55,6 +55,7 @@
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		F131BC1C2D57493A91A8A3F7 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7440E149FDC241D1AE051D32 /* MaterialCommunityIcons.ttf */; };
 		F2F99E38DC1D490BA0E32E30 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 90CFA927C8F8430C8F1D5C7B /* Feather.ttf */; };
+		F40BF45F2291E1D800318F26 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40BF45E2291E1BA00318F26 /* libSplashScreen.a */; };
 		F47919B9227BCB6F00D4318E /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47919B8227BCB6F00D4318E /* GoogleMapsBase.framework */; };
 		F47919BB227BCBB700D4318E /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47919BA227BCBB700D4318E /* GoogleMaps.framework */; };
 		F47919BD227BCBBD00D4318E /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47919BC227BCBBD00D4318E /* GoogleMapsCore.framework */; };
@@ -327,6 +328,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		F40BF45D2291E1BA00318F26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F40BF42D2291E1BA00318F26 /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 		F41ED6EE228B6A0300227752 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3E4B9EED8CB44DA5A8065332 /* RNImagePicker.xcodeproj */;
@@ -455,6 +463,7 @@
 		E830B1B51E2348CC978ADF72 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F40BF42D2291E1BA00318F26 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		F47919B8227BCB6F00D4318E /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		F47919BA227BCBB700D4318E /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		F47919BC227BCBBD00D4318E /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
@@ -528,6 +537,7 @@
 				390A047FEE9B434FBAF52BCF /* libAirMaps.a in Frameworks */,
 				E2BA3F6BCA3C4A399D4808B4 /* libRNImagePicker.a in Frameworks */,
 				F74F901F63774FD7AA852059 /* libRNCAsyncStorage.a in Frameworks */,
+				F40BF45F2291E1D800318F26 /* libSplashScreen.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +755,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F40BF42D2291E1BA00318F26 /* SplashScreen.xcodeproj */,
 				F4C7C2E82276D0040095FBBD /* ReactNativeNavigation.xcodeproj */,
 				F4B64F8022765E1500921B96 /* RNVectorIcons.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -808,6 +819,14 @@
 			children = (
 				ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */,
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F40BF42E2291E1BA00318F26 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F40BF45E2291E1BA00318F26 /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1048,6 +1067,10 @@
 				{
 					ProductGroup = F4B64F8122765E1500921B96 /* Products */;
 					ProjectRef = F4B64F8022765E1500921B96 /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = F40BF42E2291E1BA00318F26 /* Products */;
+					ProjectRef = F40BF42D2291E1BA00318F26 /* SplashScreen.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1290,6 +1313,13 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F40BF45E2291E1BA00318F26 /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = F40BF45D2291E1BA00318F26 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F41ED6EF228B6A0300227752 /* libRNImagePicker.a */ = {
@@ -1596,6 +1626,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = rnclipracticalguide/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1626,6 +1657,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = rnclipracticalguide/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -10,6 +10,7 @@ import {
   Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import { login, signup, tryAutoSignIn } from '../../store/actions';
 import validate from '../../utils/validators';
 import MainText from '../../components/UI/MainText';
@@ -60,6 +61,7 @@ class AuthScreen extends Component {
   }
 
   componentDidMount () {
+    SplashScreen.hide();
     this.props.tryAutoSignIn();
   }
 
