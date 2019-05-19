@@ -52,7 +52,13 @@ export const getPlaces = () => dispatch => {
     .then(token => {
       return fetch(`https://${API_ID}.firebaseio.com/places.json?auth=${token}`);
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Unable to get places from Firebase.');
+      }
+    })
     .then(data => {
       console.log(data);
       const places = [];
@@ -84,38 +90,51 @@ export const addPlace = (placeName, location, image) => dispatch => {
     })
     .then(authToken => {
       token = authToken;
-      return fetch(`https://us-central1-${API_ID}.cloudfunctions.net/storeImage`, {
-        method: 'POST',
-        body: JSON.stringify({
-          image: image.base64
-        }),
-        headers: {
-          'Authorization': `Bearer ${token}`
+      return fetch(
+        `https://us-central1-${API_ID}.cloudfunctions.net/storeImage`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            image: image.base64
+          }),
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         }
-      });
+      );
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Unable to store image in Firebase.');
+      }
+    })
     .then(imgData => {
       const placeData = {
         name: placeName,
         location,
-        image: imgData.imageUrl
+        image: imgData.imageUrl,
+        imagePath: imgData.imagePath
       };
-      return fetch(`https://${API_ID}.firebaseio.com/places.json?auth=${token}`, {
-        method: 'POST',
-        body: JSON.stringify(placeData)
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          dispatch(fetchSuccess());
-          dispatch(getPlaces());
-        })
-        .catch(err => {
-          console.log(err);
-          alert('Something went wrong, please try again!');
-          return dispatch(fetchError(err));
-        });
+      return fetch(
+        `https://${API_ID}.firebaseio.com/places.json?auth=${token}`,
+        {
+          method: 'POST',
+          body: JSON.stringify(placeData)
+        }
+      );
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Unable to store place in Firebase.');
+      }
+    })
+    .then(data => {
+      console.log(data);
+      dispatch(fetchSuccess());
     })
     .catch(err => {
       console.log(err);
@@ -137,7 +156,13 @@ export const deletePlace = (key) => dispatch => {
         method: 'DELETE'
       });
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Unable to delete place from Firebase.');
+      }
+    })
     .then(parsedRes => {
       console.log(parsedRes);
       return dispatch(fetchSuccess());

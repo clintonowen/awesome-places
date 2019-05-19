@@ -3,13 +3,20 @@ import { View, Image, StyleSheet } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 
+const initialState = {
+  pickedImage: null
+};
+
 export class PickImage extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      pickedImage: null
-    };
+    this.state = { ...initialState };
+
     this.pickImageHandler = this.pickImageHandler.bind(this);
+  }
+
+  resetState () {
+    this.setState({ ...initialState });
   }
 
   pickImageHandler () {

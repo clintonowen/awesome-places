@@ -29,6 +29,10 @@ class FindPlaceScreen extends Component {
     this.props.onLoadPlaces();
   }
 
+  componentDidAppear () {
+    this.props.onLoadPlaces();
+  }
+
   componentWillUnmount () {
     if (this.navEventListener) {
       this.navEventListener.remove();

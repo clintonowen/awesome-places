@@ -92,6 +92,7 @@ export function startMainTabs () {
           },
           center: {
             bottomTabs: {
+              id: 'BottomTabsId',
               children: [{
                 stack: {
                   children: [{

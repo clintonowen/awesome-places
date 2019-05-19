@@ -18,29 +18,33 @@ import MainText from '../../components/UI/MainText';
 import HeadingText from '../../components/UI/HeadingText';
 import ButtonWithBackground from '../../components/UI/ButtonWithBackground';
 
+const initialState = {
+  controls: {
+    placeName: {
+      value: '',
+      valid: false,
+      touched: false,
+      rules: {
+        notEmpty: true
+      }
+    },
+    location: {
+      value: null,
+      valid: false
+    },
+    image: {
+      value: null,
+      valid: false
+    }
+  }
+};
+
 class SharePlaceScreen extends Component {
   constructor (props) {
     super(props);
-    this.state = {
-      controls: {
-        placeName: {
-          value: '',
-          valid: false,
-          touched: false,
-          rules: {
-            notEmpty: true
-          }
-        },
-        location: {
-          value: null,
-          valid: false
-        },
-        image: {
-          value: null,
-          valid: false
-        }
-      }
-    };
+    this.state = { ...initialState };
+
+    this.resetState = this.resetState.bind(this);
     this.placeNameChangedHandler = this.placeNameChangedHandler.bind(this);
     this.locationPickedHandler = this.locationPickedHandler.bind(this);
     this.imagePickedHandler = this.imagePickedHandler.bind(this);
@@ -48,10 +52,27 @@ class SharePlaceScreen extends Component {
     this.navigationEventListener = Navigation.events().bindComponent(this);
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.isLoading && !this.props.isLoading) {
+      this.resetState();
+      Navigation.mergeOptions('BottomTabsId', {
+        bottomTabs: {
+          currentTabIndex: 0
+        }
+      });
+    }
+  }
+
   componentWillUnmount () {
     if (this.navigationEventListener) {
       this.navigationEventListener.remove();
     }
+  }
+
+  resetState () {
+    this.setState({ ...initialState });
+    this.imagePicker.resetState();
+    this.locationPicker.resetState();
   }
 
   navigationButtonPressed ({ buttonId }) {
@@ -146,8 +167,14 @@ class SharePlaceScreen extends Component {
             <MainText>
               <HeadingText>Share a Place with us!</HeadingText>
             </MainText>
-            <PickImage onImagePick={this.imagePickedHandler} />
-            <PickLocation onLocationPick={this.locationPickedHandler} />
+            <PickImage
+              onImagePick={this.imagePickedHandler}
+              ref={ref => (this.imagePicker = ref)}
+            />
+            <PickLocation
+              onLocationPick={this.locationPickedHandler}
+              ref={ref => (this.locationPicker = ref)}
+            />
             <PlaceInput
               placeData={this.state.controls.placeName}
               onChangeText={this.placeNameChangedHandler}
