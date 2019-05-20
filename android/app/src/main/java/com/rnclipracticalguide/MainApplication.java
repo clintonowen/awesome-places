@@ -14,6 +14,7 @@ import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +44,8 @@ public class MainApplication extends NavigationApplication {
             new VectorIconsPackage(),
             new MapsPackage(),
             new ImagePickerPackage(),
-            new AsyncStoragePackage()
+            new AsyncStoragePackage(),
+            new SplashScreenReactPackage()
     );
   }
 

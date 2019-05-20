@@ -3,7 +3,7 @@
 buildscript {
     ext {
         buildToolsVersion = "28.0.3"
-        minSdkVersion = 19
+        minSdkVersion = 21
         compileSdkVersion = 28
         targetSdkVersion = 28
         supportLibVersion = "28.0.0"
@@ -36,3 +36,19 @@ allprojects {
     }
 }
 
+subprojects { subproject ->
+    afterEvaluate {
+        if ((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+            android {
+                variantFilter { variant ->
+                    def names = variant.flavors*.name
+                    // To check for a certain build type, use variant.buildType.name == "<buildType>"
+                    if (names.contains("reactNative51") || names.contains("reactNative55")) {
+                        // Gradle ignores any variants that satisfy the conditions above.
+                        setIgnore(true)
+                    }
+                }
+            }
+        }
+    }
+}
